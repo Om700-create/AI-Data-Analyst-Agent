@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Data Analyst Agent</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f7f7fb;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+    h1 {
+      margin-top: 0;
+    }
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      background: #2563eb;
+      color: white;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    pre {
+      background: #f3f4f6;
+      padding: 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 6px;
+      text-align: left;
+    }
+    th {
+      background: #f9fafb;
+    }
+    .section {
+      margin-top: 20px;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    img {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Data Analyst Agent</h1>
+    <p>Ask a business question in natural language. The agent will generate SQL, run it, plot the results, and explain the insights.</p>
+
+    <label for="question"><strong>Question</strong></label>
+    <textarea id="question" placeholder="Example: What is the total revenue by region?"></textarea>
+    <br />
+    <button id="askBtn">Ask</button>
+
+    <div class="status" id="status"></div>
+
+    <div class="section" id="sqlSection" style="display:none;">
+      <h3>Generated SQL</h3>
+      <pre id="sqlOutput"></pre>
+    </div>
+
+    <div class="section" id="tableSection" style="display:none;">
+      <h3>Result Preview</h3>
+      <div id="tableContainer"></div>
+    </div>
+
+    <div class="section" id="plotSection" style="display:none;">
+      <h3>Chart</h3>
+      <img id="plotImg" src="" alt="Plot" />
+    </div>
+
+    <div class="section" id="explanationSection" style="display:none;">
+      <h3>Explanation</h3>
+      <pre id="explanationOutput"></pre>
+    </div>
+  </div>
+
+  <script>
+    const askBtn = document.getElementById("askBtn");
+    const statusEl = document.getElementById("status");
+    const sqlSection = document.getElementById("sqlSection");
+    const tableSection = document.getElementById("tableSection");
+    const plotSection = document.getElementById("plotSection");
+    const explanationSection = document.getElementById("explanationSection");
+
+    const sqlOutput = document.getElementById("sqlOutput");
+    const tableContainer = document.getElementById("tableContainer");
+    const plotImg = document.getElementById("plotImg");
+    const explanationOutput = document.getElementById("explanationOutput");
+
+    askBtn.addEventListener("click", async () => {
+      const question = document.getElementById("question").value.trim();
+      if (!question) {
+        alert("Please enter a question.");
+        return;
+      }
+
+      askBtn.disabled = true;
+      statusEl.textContent = "Thinking... generating SQL and running analysis.";
+      sqlSection.style.display = "none";
+      tableSection.style.display = "none";
+      plotSection.style.display = "none";
+      explanationSection.style.display = "none";
+
+      try {
+        const res = await fetch("/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || "Request failed");
+        }
+
+        const data = await res.json();
+        statusEl.textContent = `Done. Rows returned: ${data.meta.row_count}`;
+
+        // SQL
+        sqlOutput.textContent = data.generated_sql;
+        sqlSection.style.display = "block";
+
+        // Table
+        if (data.result_preview && data.result_preview.rows.length > 0) {
+          const cols = data.result_preview.columns;
+          const rows = data.result_preview.rows;
+
+          let html = "<table><thead><tr>";
+          cols.forEach(c => html += `<th>${c}</th>`);
+          html += "</tr></thead><tbody>";
+
+          rows.forEach(r => {
+            html += "<tr>";
+            r.forEach(v => html += `<td>${v}</td>`);
+            html += "</tr>";
+          });
+
+          html += "</tbody></table>";
+          tableContainer.innerHTML = html;
+          tableSection.style.display = "block";
+        }
+
+        // Plot
+        if (data.plot_url) {
+          plotImg.src = data.plot_url;
+          plotSection.style.display = "block";
+        }
+
+        // Explanation
+        if (data.explanation) {
+          explanationOutput.textContent = data.explanation;
+          explanationSection.style.display = "block";
+        }
+
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "Error: " + err.message;
+      } finally {
+        askBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+order_id,order_date,region,product,category,units_sold,unit_price,revenue
+1,2025-01-01,North,Product A,Electronics,10,100,1000
+2,2025-01-02,South,Product B,Fashion,5,80,400
+3,2025-01-03,East,Product A,Electronics,8,100,800
+4,2025-01-04,West,Product C,Home,12,50,600
+5,2025-01-05,North,Product B,Fashion,7,80,560
+6,2025-01-06,South,Product C,Home,20,50,1000
+7,2025-01-07,East,Product A,Electronics,15,100,1500
+8,2025-01-08,West,Product B,Fashion,3,80,240
+9,2025-01-09,North,Product C,Home,25,50,1250
+10,2025-01-10,South,Product A,Electronics,9,100,900
