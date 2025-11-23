@@ -1,49 +1,51 @@
 # 📊 AI Data Analyst Agent
-![Uploading Screenshot 2025-11-24 003131.png…]()
+📊 AI Data Analyst Agent
+
+An end-to-end AI-powered Data Analyst that converts natural-language questions into SQL, executes them on a database, visualizes the results, and explains insights like a senior data analyst.
+
+This project is designed as a top-tier portfolio project for Data Science, AI, and Business Analytics roles.
+
+🖥️ Live UI Preview (Light Theme)
+
+🌙 Dark Theme UI (Premium Look)
+
+🎞️ GIF Demo (Storyboard Style for GitHub Profile)
+
+This simulated GIF-style storyboard shows how the agent processes data step-by-step.
 
 
-Ask questions in natural language → Get SQL → Run analysis → View charts → Read business insights
 
-An end-to-end, production-ready AI Agent that turns natural-language business questions into executable SQL queries — then automatically visualizes results and explains insights like a senior data analyst.
 
-This project demonstrates LLM-powered analytics automation, the kind top 1% Data Scientists showcase on their resumes.
 
-🖼️ Project Preview
+![My Custom UI](assets/my_screenshot<img width="607" height="614" alt="Screenshot 2025-11-24 005224" src="https://github.com/user-attachments/assets/390d5c94-b06a-4a53-babb-c4c04cc0bb44" />
+.png)
 
-Below is how the application looks after deployment:
 
-🚀 Key Features
-🔹 Natural Language → SQL Conversion
 
-Ask questions like:
 
-“What is the total revenue by region?”
-The agent generates valid SQL automatically.
+![My Screenshot](my_image.<img width="916" height="617" alt="Screenshot 2025-11-24 005257" src="https://github.com/user-attachments/assets/1f927216-7243-465f-a082-ee036e7d44f0" />
+png)
 
-🔹 Automated Query Execution
+🚀 Features
 
-SQL is run on a structured SQLite analytics database.
+🔹 Natural Language → SQL using LLM
 
-🔹 Auto-Generated Visualizations
+🔹 Automatic SQL execution on SQLite
 
-It creates bar charts, line charts, or statistical summaries based on the result.
+🔹 Auto-generated charts (bar, line)
 
-🔹 Business Insights (LLM-generated)
+🔹 AI-generated business insights
 
-The AI explains the results in clear business language.
+🔹 Modern UI (light + dark themes)
 
-🔹 Clean FastAPI Backend
+🔹 Clean FastAPI backend
 
-Modular, production-ready structure.
+🔹 Modular structure ready for deployment
 
-🔹 Stylish Frontend UI
-
-Simple, clean interface anyone can use.
-
-📁 Project Structure
+📁 Folder Structure
 ai-data-analyst-agent/
-│  requirements.txt
 │  README.md
+│  requirements.txt
 │
 ├─ data/
 │   sample_sales.csv
@@ -64,112 +66,109 @@ ai-data-analyst-agent/
 │        plots/
 │        index.html
 
-⚙️ Installation & Setup
-1️⃣ Clone the project
+⚙️ Installation
+1️⃣ Clone
 git clone https://github.com/yourname/ai-data-analyst-agent.git
 cd ai-data-analyst-agent
 
-2️⃣ Install dependencies
+2️⃣ Install
 pip install -r requirements.txt
 
-3️⃣ Create database
+3️⃣ Setup Database
 python data/init_db.py
 
+4️⃣ Add HuggingFace API Keys
 
-This generates analytics.db populated with sample sales data.
+Create .env:
 
-4️⃣ Add your HuggingFace API Token
-
-Create a .env file:
-
-HF_API_TOKEN=your_huggingface_token
+HF_API_TOKEN=your_token_here
 HF_MODEL_ID=mistralai/Mistral-7B-Instruct-v0.2
 
-5️⃣ Run the app
+5️⃣ Run Server
 uvicorn app.main:app --reload
 
-6️⃣ Open in browser
+6️⃣ Access
+
+UI → http://127.0.0.1:8000/static/index.html
 
 API Docs → http://127.0.0.1:8000/docs
 
-Web UI → http://127.0.0.1:8000/static/index.html
+🧠 How It Works
 
-🧠 How It Works (Pipeline)
-1. User asks a natural-language question
+User asks a question
 
-Example:
+LLM converts text → SQL
 
-“Show total revenue by product”
+SQL runs on the database
 
-2. LLM converts question → SQL
+DataFrame → chart auto-generated
 
-Example output:
+LLM writes business insights
 
-SELECT product, SUM(revenue) AS total_revenue
-FROM sales
-GROUP BY product;
+📈 Example Output
 
-3. App executes SQL on SQLite database
+Question:
 
-Pandas reads the result into a DataFrame.
-
-4. A chart is automatically generated
-
-Saved to static/plots/.
-
-5. LLM generates business insights
-
-You get bullet-point explanations tailored to the question and dataset.
-
-💡 Example Output
-
-Input Question:
-
-“What is the total revenue by region?”
+What is the total revenue by region?
 
 Generated SQL:
 
 SELECT region, SUM(revenue) AS total_revenue
 FROM sales
-GROUP BY region
+GROUP BY region;
 
 
-Chart:
-(Shown in UI — auto-created from results)
+Insights:
 
-Business Insights:
+North is the highest-performing region
 
-The North region generated the highest revenue.
+East shows consistent revenue
 
-East shows strong growth with consistent sales.
+West underperforms
 
-West lags behind significantly, indicating low market penetration.
+South is moderate
 
-🎯 Resume-Ready Project Description
+🎯 Resume-Ready Description
 
-Use this in your resume:
+AI Data Analyst Agent — End-to-End AI Project
+Built an AI agent that interprets natural language queries, generates SQL, visualizes analytics, and produces business insights using LLMs. Developed with FastAPI, SQLAlchemy, Pandas, Matplotlib, and HuggingFace models. Includes a modern UI and full automation pipeline.
 
-AI Data Analyst Agent — End-to-End Project
-Built an AI-powered Data Analyst Agent that converts natural-language questions into SQL, executes them on a structured analytics DB, and returns tables, charts, and narrative insights. Integrated HuggingFace LLMs for NL→SQL and insight generation. Developed with FastAPI, SQLAlchemy, Pandas, and a clean HTML UI for business users.
+🛠️ Tech Stack
 
-🔧 Tech Stack
+FastAPI
 
-Backend: FastAPI, SQLAlchemy, Pandas
+SQLite + SQLAlchemy
 
-LLM: HuggingFace Inference API (Mistral 7B Instruct)
+HuggingFace LLM
 
-Database: SQLite
+Pandas
 
-Frontend: HTML/CSS, JS
+Matplotlib
 
-Visualization: Matplotlib
-
-Deployment-ready: Modular structure & static file support
+HTML/CSS/JS
 
 🤝 Contributing
 
-Pull requests, improvements, and UI enhancements are welcome.
+PRs are welcome!
+You can improve UI, add models, or enhance charts.
 
-📜 License
+📜 License (MIT)
+MIT License
 
-MIT
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
