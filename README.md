@@ -1,4 +1,6 @@
 # 📊 AI Data Analyst Agent
+![Uploading Screenshot 2025-11-24 003131.png…]()
+
 
 Ask questions in natural language → Get SQL → Run analysis → View charts → Read business insights
 
